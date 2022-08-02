@@ -27,10 +27,12 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world! ${{ github.event.head_commit.message }}
+        run: echo Hello, world! ${{ github.event. }}
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+          MSG=$(git log --format=%B -n 1 ${{github.event.after}})
+          echo "::set-env name=COMMIT_MESSAGE::${MSG}"
