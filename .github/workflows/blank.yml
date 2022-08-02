@@ -34,5 +34,15 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          MSG=$(git log --format=%B -n 1 ${{github.event.after}})
-          echo "${MSG}"
+          echo ${{ github.context.pull_request }}
+     
+      - name: Get PR Commits
+        id: 'get-pr-commits'
+        uses: tim-actions/get-pr-commits@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Print Commits
+        run: |
+          echo Print Commits,
+          echo ${{ steps.get-pr-commits.outputs.commits }}
