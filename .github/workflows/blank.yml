@@ -45,7 +45,7 @@ jobs:
       - name: Commit Message Checker for pull request
         uses: tim-actions/commit-message-checker-with-regex@v0.3.1
         with:
-          # commits in json format
+          # commits in json format 
           commits: ${{ steps.get-pr-commits.outputs.commits }}
           # A regex pattern to check if a commit message is valid.
           pattern: '^.{0,75}(\n.*)*$'
