@@ -1,0 +1,11 @@
+{
+  "name": "test-gh1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Ldoppea/test-gh1.git",
+  "author": "Yannick Chiron <yannick.chiron@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "danger": "^11.1.2"
+  }
+}
