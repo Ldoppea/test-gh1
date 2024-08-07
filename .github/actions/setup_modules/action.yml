@@ -14,8 +14,6 @@ runs:
       with:
         path: |
           ${{ github.workspace }}/node_modules
-          ~/.cache/electron
-          ~/.cache/electron-builder
         key: ${{ runner.os }}-v${{ env.NODE_VERSION }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
     - name: Install packages
       if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
