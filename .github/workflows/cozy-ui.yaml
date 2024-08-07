@@ -45,7 +45,7 @@ jobs:
       - name: Tests snapshots
         run: echo "yarn test:snapshots"
   argosPrepare:
-    needs: [build]
+    needs: [build, installPuppeteer]
     runs-on: ubuntu-latest
     steps:
       - name: Argos - Prepare env
