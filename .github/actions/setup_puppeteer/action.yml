@@ -3,25 +3,36 @@ name: "Setup modules"
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-node@v4
-      with:
-        node-version-file: '.nvmrc'
+    - uses: ./.github/actions/setup_modules
+    # - uses: actions/setup-node@v4
+    #   with:
+    #     node-version-file: '.nvmrc'
+    # - name: Cache node modules
+    #   id: cache-node-modules
+    #   uses: actions/cache@v3
+    #   env:
+    #     cache-name: cache-node-modules
+    #   with:
+    #     path: |
+    #       ${{ github.workspace }}/node_modules
+    #       ~/.cache/electron
+    #       ~/.cache/electron-builder
+    #     key: ${{ runner.os }}-v${{ env.NODE_VERSION }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+    # - name: Install packages
+    #   if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+    #   shell: bash
+    #   run: yarn install --frozen-lockfile --ignore-optional
     - name: Cache node modules
-      id: cache-node-modules
+      id: cache-node-modules-puppeteer
       uses: actions/cache@v3
       env:
-        cache-name: cache-node-modules
+        cache-name: cache-node-modules-puppeteer
       with:
         path: |
           ${{ github.workspace }}/node_modules
-          ~/.cache/electron
-          ~/.cache/electron-builder
         key: ${{ runner.os }}-v${{ env.NODE_VERSION }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
-    - name: Install packages
-      if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-      shell: bash
-      run: yarn install --frozen-lockfile --ignore-optional
     - name: Argos - Prepare env
+      if: ${{ steps.cache-node-modules-puppeteer.outputs.cache-hit != 'true' }}
       shell: bash
       run: |
         yarn add puppeteer@"21.11.0" --dev --exact
