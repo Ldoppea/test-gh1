@@ -1,4 +1,4 @@
-name: Build and Deploy Cozy-ui
+name: Build and Deploy Cozy-uis
 on:
   push:
     branches: [ master ]
