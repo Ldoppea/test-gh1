@@ -10,7 +10,7 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./actions/.github/actions/setup_modules
+      - uses: Ldoppea/test-gh1/.github/actions/setup_modules
       # - uses: actions/checkout@v4
       # - uses: actions/setup-node@v4
       #   with:
@@ -33,7 +33,7 @@ jobs:
     needs: [install]
     runs-on: ubuntu-latest
     steps:
-      - uses: ./actions/.github/actions/setup_puppeteer
+      - uses: Ldoppea/test-gh1/.github/actions/setup_puppeteer
       # - uses: actions/checkout@v4
       # - uses: actions/setup-node@v4
       #   with:
