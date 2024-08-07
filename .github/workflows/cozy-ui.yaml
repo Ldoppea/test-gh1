@@ -1,7 +1,7 @@
 name: Build and Deploy Cozy-uis
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
 env:
   ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
