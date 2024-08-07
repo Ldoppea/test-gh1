@@ -92,7 +92,7 @@ jobs:
       - name: Argos - Upload all screenshots
         run: echo "argos"
   deploy:
-    needs: [argosUpload]
+    needs: [argosUpload, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
