@@ -1,4 +1,4 @@
-name: CI
+name: Release
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run a one-line script
+      - name: Run optional release
         if: ${{ github.ref_name == 'main' }}
         run: echo Hello, world!
 
