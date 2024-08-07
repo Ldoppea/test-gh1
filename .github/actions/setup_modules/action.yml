@@ -19,4 +19,5 @@ runs:
         key: ${{ runner.os }}-v${{ env.NODE_VERSION }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
     - name: Install packages
       if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+      shell: bash
       run: yarn install --frozen-lockfile --ignore-optional
