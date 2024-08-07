@@ -75,9 +75,10 @@ jobs:
       - name: Argos - Upload all screenshots
         run: echo "argos"
   deploy:
-      needs: [argosUpload]
-      steps:
-        - name: Deploy
-          if: ${{ github.ref_name == 'master' }}
-          run: |
-            echo "edploy"
+    needs: [argosUpload]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        if: ${{ github.ref_name == 'master' }}
+        run: |
+          echo "edploy"
