@@ -12,94 +12,72 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_modules
-      # - uses: actions/checkout@v4
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version-file: '.nvmrc'
-      # - name: Cache node modules
-      #   id: cache-node-modules
-      #   uses: actions/cache@v3
-      #   env:
-      #     cache-name: cache-node-modules
-      #   with:
-      #     path: |
-      #       ${{ github.workspace }}/node_modules
-      #       ~/.cache/electron
-      #       ~/.cache/electron-builder
-      #     key: ${{ runner.os }}-v${{ env.NODE_VERSION }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
-      # - name: Install packages
-      #   if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-      #   run: yarn install --frozen-lockfile --ignore-optional
   installPuppeteer:
     needs: [install]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_puppeteer
-      # - uses: actions/checkout@v4
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version-file: '.nvmrc'
-      # - name: Cache node modules
-      #   id: cache-node-modules
-      #   uses: actions/cache@v3
-      #   env:
-      #     cache-name: cache-node-modules
-      #   with:
-      #     path: |
-      #       ${{ github.workspace }}/node_modules
-      #       ~/.cache/electron
-      #       ~/.cache/electron-builder
-      #     key: ${{ runner.os }}-v${{ env.NODE_VERSION }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
-      # - name: Install packages
-      #   if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-      #   run: yarn install --frozen-lockfile --ignore-optional
-      # - name: Argos - Prepare env
-      #   run: |
-      #     yarn add puppeteer@"21.11.0" --dev --exact
-  # preBuild:
-  #   needs: [install]
-  # build:
-  # test:
-  # argosCreate:
-  # argosUpload:
-  # deploy:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version-file: '.nvmrc'
-  #     - name: Install packages
-  #       run: yarn install --frozen-lockfile --ignore-optional
-  #     - name: Lint
-  #       run: echo "yarn lint"
-  #     - name: Generate Sprite and Palette
-  #       run: echo "yarn makeSpriteAndPalette"
-  #     - name: Build JS
-  #       run: echo "yarn build"
-  #     - name: Build CSS
-  #       run: echo "yarn build:css:all"
-  #     - name: Build docs
-  #       run: echo "tout court on s'en fout de ce qu'il prompt, haha il est chiant"
-  #     - name: Tests without snapshots
-  #       run: echo "yarn test:noSnapshots"
-  #     - name: Tests snapshots
-  #       run: echo "yarn test:snapshots"
-  #     # - name: Bundlemon
-  #     #   run: yarn bundlemon
-  #     - name: Argos - Prepare env
-  #       run: echo "argos"
-  #     - name: Argos - Create desktop screenshots
-  #       run: echo "argos"
-  #     - name: Argos - Create mobile screenshots
-  #       run: echo "argos"
-  #     - name: Argos - Create kss screenshots
-  #       run: echo "argos"
-  #     - name: Argos - Upload all screenshots
-  #       run: echo "argos"
-  #     - name: Deploy
-  #       if: ${{ github.ref_name == 'master' }}
-  #       run: |
-  #         echo "edploy"
+  preBuild:
+    needs: [install]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint
+        run: echo "yarn lint"
+      - name: Generate Sprite and Palette
+        run: echo "yarn makeSpriteAndPalette"
+  build:
+    needs: [preBuild]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build JS
+        run: echo "yarn build"
+      - name: Build CSS
+        run: echo "yarn build:css:all"
+      - name: Build docs
+        run: echo "tout court on s'en fout de ce qu'il prompt, haha il est chiant"
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tests without snapshots
+        run: echo "yarn test:noSnapshots"
+      - name: Tests snapshots
+        run: echo "yarn test:snapshots"
+  argosPrepare:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Argos - Prepare env
+        run: echo "argos"
+  argosDesktop:
+    needs: [argosPrepare]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Argos - Create desktop screenshots
+        run: echo "argos"
+  argosMobile:
+    needs: [argosPrepare]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Argos - Create mobile screenshots
+        run: echo "argos"
+  argosKss:
+    needs: [argosPrepare]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Argos - Create kss screenshots
+        run: echo "argos"
+  argosUpload:
+    needs: [argosDesktop, argosMobile, argosKss]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Argos - Upload all screenshots
+        run: echo "argos"
+  deploy:
+      needs: [argosUpload]
+      steps:
+        - name: Deploy
+          if: ${{ github.ref_name == 'master' }}
+          run: |
+            echo "edploy"
