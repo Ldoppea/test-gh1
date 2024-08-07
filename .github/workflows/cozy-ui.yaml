@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./actions/setup_modules
+      - uses: ./.github/actions/setup_modules
       # - uses: actions/checkout@v4
       # - uses: actions/setup-node@v4
       #   with:
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./actions/setup_puppeteer
+      - uses: ./.github/actions/setup_puppeteer
       # - uses: actions/checkout@v4
       # - uses: actions/setup-node@v4
       #   with:
